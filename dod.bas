@@ -22,6 +22,7 @@
 #Include "utils.bi"
 #Include "mmenu.bi"
 #Include "character.bi"
+#Include "intro.bi"
 
 'Displays the game title screen.
 Sub DisplayTitle
@@ -53,6 +54,7 @@ End Sub
 ScreenRes 640, 480, 32
 Width charw, charh
 WindowTitle "Dungeon of Doom"
+Randomize Timer
 
 'Draw the title screen
 'DisplayTitle
@@ -72,6 +74,9 @@ Do
         If ret = FALSE Then
             'Set this so we loop.
             mm = mmenu.mInstructions
+        Else
+            'Do the intro.
+            intro.DoIntro
         EndIf
     ElseIf mm = mmenu.mLoad Then
         'Load the save game.

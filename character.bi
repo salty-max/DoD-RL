@@ -51,9 +51,15 @@ Type character
    Private:
    _cinfo As characterinfo
    Public:
+   Declare Property CharName() As String
    Declare Sub PrintStats ()
    Declare Function GenerateCharacter() As Integer
 End Type
+
+'Returns the character name.
+Property character.CharName() As String
+    Return _cinfo.cname
+End Property
 
 'Prints out the current stats for character.
 Sub character.PrintStats ()

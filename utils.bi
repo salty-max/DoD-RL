@@ -47,3 +47,50 @@ Sub DrawStringShadow(x As Integer, y As Integer, txt As String, fcolor As UInteg
     Draw String(x + 1, y + 1), txt, fbBlack
     Draw String(x, y), txt, fcolor
 End Sub
+
+'Splits text InS at sLen and returns clipped string.
+Function WordWrap(InS As String, sLen As Integer) As String
+    Dim As Integer i = sLen, sl
+    Dim As Integer BackFlag = FALSE
+    Dim As String sret, ch
+    
+    'Make sure we have something to with here.
+    sl = Len(InS)
+    If sl <= sLen Then
+        sret = InS
+        InS = ""
+    Else
+        'Find the break point in the string, backtracking
+        'to find a space to break the line at if not at a space.
+        Do
+            'Break is at space, so done.
+            ch = Mid(InS, i, 1)
+            If ch = Chr(32) Then
+                Exit Do
+            EndIf
+            
+            'If not backtracking, start backtrack.
+            If BackFlag = FALSE Then
+                If i + 1 <= sl Then
+                    i += 1
+                EndIf
+                BackFlag = TRUE
+            Else
+                i -= 1
+            EndIf
+        Loop Until i = 0 or ch = Chr(32) 'Backtrack to space.
+        
+        'Make sure we still have something to work with.
+        If i > 0 Then
+            'Return clipped string.
+            sret = Mid(InS, 1, i)
+            
+            'Modify the input string: string less clipped.
+            InS = Mid(InS, i + 1)
+        Else
+            sret = ""
+        EndIf
+    EndIf
+    
+    Return sret
+End Function
