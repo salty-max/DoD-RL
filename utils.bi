@@ -94,3 +94,23 @@ Function WordWrap(InS As String, sLen As Integer) As String
     
     Return sret
 End Function
+
+'Returns fast distance calculation between two points.
+Function CalcDist(x1 As Integer, x2 As Integer, y1 As Integer, y2 As Integer) As Integer
+    Dim As Integer xdiff, ydiff
+    Dim dist As Integer
+    
+    xdiff = Abs(x1 - x2)
+    ydiff = Abs(y1 - y2)
+    dist = (xdiff + ydiff + imax(xdiff, ydiff)) Shr 1
+    Return dist
+End Function
+
+'Writes text at specified row and column.
+Sub PutText(txt As String, row As Integer, col As Integer, fcolor as UInteger = fbWhite)
+    Dim As Integer x, y
+    
+    x = (col - 1) * charw
+    y = (row - 1) * charh
+    Draw String (x, y), txt, fcolor
+End Sub

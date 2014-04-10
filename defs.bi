@@ -29,6 +29,11 @@ Const fbYellow = RGB(255, 255, 0)
 Const fbWhite = RGB(255, 255, 255)
 Const fbBlack = RGB(0, 0, 0)
 Const fbGray = RGB(128, 128, 128)
+Const fbTan = RGB(210, 180, 140)
+Const fbSlateGrayDark = RGB(47, 79, 79)
+Const fbGreen = RGB(0, 255, 0)
+Const fbRed = RGB(255, 0, 0)
+Const fbSienna = RGB(160, 082, 045)
 
 'Ascii Chars
 Const acBlock = Chr(219)
@@ -57,3 +62,19 @@ Const key_enter = Chr(13)
 #Ifndef TRUE
     #Define TRUE -1
 #EndIf
+
+'NULL value.
+#Define NULL 0
+
+'Return max of two items.
+#Define imax(a, b) IIf(a > b, a, b)
+
+'Coordinates.
+Type mcoord
+    x As Integer
+    y As Integer
+End Type
+
+'Working variables.
+Dim As String ckey
+Dim As Integer mret

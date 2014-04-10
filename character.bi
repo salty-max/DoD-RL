@@ -19,8 +19,9 @@
 '* ANY KIND. See http://www.dspguru.com/wol.htm for more information.
 '*
 '*****************************************************************************'/
+
 'Character screen background.
-'#Include "charback.bi"
+#Include "charback.bi"
 
 'Character attribute type def.
 Type characterinfo
@@ -42,8 +43,7 @@ Type characterinfo
    totxp As Integer     'Lifetime XP amount.0
    currgold As Integer  'Current gold amount.
    totgold As Integer   'Lifetime gold amount.
-   locx As Integer      'Current x position on map.
-   locy As Integer      'Current y location on map.
+   ploc As mcoord     'Character current x and y location.
 End Type
 
 'Character object.
@@ -51,15 +51,58 @@ Type character
    Private:
    _cinfo As characterinfo
    Public:
-   Declare Property CharName() As String
+   Declare Property CharName() As String  'Character name. 
+   Declare Property Locx(xx As Integer)   'Sets X coord of character.
+   Declare Property Locx() As Integer     'Returns the X coord of character.
+   Declare Property Locy(xx As Integer)   'Sets X coord of character.
+   Declare Property Locy() As Integer     'Returns the X coord of character.
+   Declare Property CurrHP(hp As Integer) 'Sets the hp.
+   Declare Property CurrHP() As Integer   'Returns the current HP.
+   Declare Property MaxHP() As Integer   'Returns the current HP.
    Declare Sub PrintStats ()
    Declare Function GenerateCharacter() As Integer
 End Type
 
 'Returns the character name.
 Property character.CharName() As String
-    Return _cinfo.cname
+   Return _cinfo.cname
 End Property
+
+'Sets X coord of character.
+Property character.Locx(xx As Integer)
+   _cinfo.ploc.x = xx
+End Property
+
+'Returns the x coord of the character.
+Property character.Locx() As Integer
+   Return _cinfo.ploc.x
+End Property
+
+'Sets X coord of character.     
+Property character.Locy(yy As Integer)
+   _cinfo.ploc.y = yy
+End Property
+
+'Returns the X coord of character.
+Property character.Locy() As Integer
+   Return _cinfo.ploc.y
+End Property
+
+'Sets the hp.
+Property character.CurrHP(hp As Integer)
+   _cinfo.currhp = hp
+End Property
+
+'Returns the current HP.
+Property character.CurrHP() As Integer
+   Return _cinfo.currhp
+End Property
+
+'Returns the max HP.
+Property character.MaxHP() As Integer
+   Return _cinfo.maxhp
+End Property
+
 
 'Prints out the current stats for character.
 Sub character.PrintStats ()
@@ -70,7 +113,7 @@ Sub character.PrintStats ()
    'Draw the background.
    'DrawBackground charback()
    'Draw the title.
-   sinfo = Trim(_cinfo.cname) & " Attributes and Skills" 
+   sinfo = Trim(_cinfo.cname) & "'s Attributes and Skills" 
    ty = row * charh
    tx = (CenterX(sinfo)) * charw
    DrawStringShadow tx, ty, sinfo, fbYellow
@@ -149,7 +192,7 @@ Function character.GenerateCharacter() As Integer
    Do
       Cls
       'Using simple input here.
-      Input "Enter your character's name (40 chars max):",chname
+      Input "Enter your character's name (40 chars max): ",chname
       'Validate the name here. 
       If Len(chname) > 0 And Len(chname) < 41 Then
          done = TRUE
@@ -191,8 +234,8 @@ Function character.GenerateCharacter() As Integer
          .totxp = .currxp
          .currgold = RandomRange (50, 100)
          .totgold = .currgold
-         .locx = 0
-         .locy = 0
+         .ploc.x = 0
+         .ploc.y = 0
       End With
       'Print out the current character stats.
       PrintStats
@@ -201,7 +244,7 @@ Function character.GenerateCharacter() As Integer
       Do
          'Get the key press.
          skey = Inkey
-         'Format to lower case.
+         'Fornat to lower case.
          skey = LCase(skey)
          'If escape exit back to menu.
          If skey = key_esc Then
